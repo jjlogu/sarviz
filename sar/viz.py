@@ -170,6 +170,8 @@ class Visualization(object):
             plt.subplot(self.num_plots, 1, plt_idx)
             plt.xticks(self.xticks, self.xtick_labels,
                        rotation=Visualization.PLT_XTICK_LABEL_ROTATION)
+            plt.yticks(np.arange(0,100, step=10), np.arange(0,100, step=10))
+            plt.ylim(bottom=0, top=100)
             plt.plot(self.x_data, self.cpu_usage_usr, label='usr')
             plt.plot(self.x_data, self.cpu_usage_sys, label='sys')
             plt.xlabel('time')
@@ -184,7 +186,8 @@ class Visualization(object):
             plt.subplot(self.num_plots, 1, plt_idx)
             plt.xticks(self.xticks, self.xtick_labels,
                        rotation=Visualization.PLT_XTICK_LABEL_ROTATION)
-            plt.plot(self.x_data, self.pct_mem_used, label='% mem used')
+            plt.ylim(bottom=0, top=100)
+            plt.plot(self.x_data, map(lambda x: x * 1000, self.pct_mem_used), label='% mem used')
             plt.xlabel('time')
             plt.ylabel('% mem used')
             plt.title('Percentage of Memory Used')
@@ -197,7 +200,9 @@ class Visualization(object):
             plt.xticks(self.xticks, self.xtick_labels,
                        rotation=Visualization.PLT_XTICK_LABEL_ROTATION)
             plt.stackplot(self.x_data, self.mem_buffer_mb, self.mem_cached_mb, self.mem_used_mb,
-                          colors=['lemonchiffon', 'navajowhite', 'sandybrown'])
+                          colors=['#c40000', "#005df4", "#00b721"])
+
+            plt.ylim(bottom=0, top=4000)
             plt.xlabel('time')
             plt.ylabel('Mem Usage (MB)')
             plt.title('Memory Usage')
@@ -206,9 +211,9 @@ class Visualization(object):
             # nw_handle = mpatches.Patch(color='navajowhite', label='Cached Memory')
             # sb_handle = mpatches.Patch(color='sandybrown', label='Used Memory')
 
-            lg = plt.legend([mpatches.Patch(color='lemonchiffon'),
-                             mpatches.Patch(color='navajowhite'),
-                             mpatches.Patch(color='sandybrown')],
+            lg = plt.legend([mpatches.Patch(color='#c40000'),
+                             mpatches.Patch(color='#005df4'),
+                             mpatches.Patch(color='#00b721')],
                             ['Buffered Memory', 'Cached Memory', 'Used Memory'])
             lg.get_frame().set_alpha(0.6)
             lg_txts = lg.get_texts()
